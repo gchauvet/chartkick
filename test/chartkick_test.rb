@@ -32,6 +32,10 @@ class ChartkickTest < Minitest::Test
     assert_chart scatter_chart(@data)
   end
 
+  def test_treemap_chart
+	assert_chart treemap_chart(@data)
+  end
+
   def test_geo_chart
     assert_chart geo_chart(@data)
   end

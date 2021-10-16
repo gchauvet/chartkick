@@ -34,6 +34,10 @@ module Chartkick
     def timeline(data_source, **options)
       chartkick_chart "Timeline", data_source, **options
     end
+	
+	def treemap_chart(data_source, **options)
+		chartkick_chart "treemap", data_source, **options
+	end
 
     private
 

@@ -912,6 +912,42 @@
 
     this.drawChart(chart, "pie", data, options);
   };
+  
+  defaultExport$2.prototype.renderTreemapChart = function renderTreemapChart (chart) {
+    var options = merge({}, baseOptions);
+
+    if ("legend" in chart.options) {
+      hideLegend$2(options, chart.options.legend);
+    }
+
+    if (chart.options.title) {
+      setTitle$2(options, chart.options.title);
+    }
+
+    options = merge(options, chart.options.library || {});
+    setFormatOptions$1(chart, options, "treemap");
+
+    var labels = [];
+    var values = [];
+    for (var i = 0; i < chart.data.length; i++) {
+      var point = chart.data[i];
+      labels.push(point[0]);
+      values.push(point[1]);
+    }
+
+    var dataset = {
+      data: values,
+      backgroundColor: chart.options.colors || defaultColors
+    };
+    dataset = merge(dataset, chart.options.dataset || {});
+
+    var data = {
+      labels: labels,
+      datasets: [dataset]
+    };
+
+    this.drawChart(chart, "treemap", data, options);
+  };
 
   defaultExport$2.prototype.renderColumnChart = function renderColumnChart (chart, chartType) {
     var options;
@@ -1211,6 +1247,32 @@
 
     this.drawChart(chart, series, options);
   };
+  
+  defaultExport$1.prototype.renderTreemapChart = function renderTreemapChart (chart) {
+    var chartOptions = merge(defaultOptions$1, {});
+
+    if (chart.options.colors) {
+      chartOptions.colors = chart.options.colors;
+    }
+ 
+    if ("legend" in chart.options) {
+      hideLegend$1(chartOptions, chart.options.legend);
+    }
+
+    if (chart.options.title) {
+      setTitle$1(chartOptions, chart.options.title);
+    }
+
+    var options = merge(chartOptions, chart.options.library || {});
+    setFormatOptions(chart, options, "treemap");
+    var series = [{
+      type: "treemap",
+      name: chart.options.label || "Value",
+      data: chart.data
+    }];
+
+    this.drawChart(chart, series, options);
+  };
 
   defaultExport$1.prototype.renderColumnChart = function renderColumnChart (chart, chartType) {
     chartType = chartType || "column";
@@ -1452,6 +1514,37 @@
       data.addRows(chart.data);
 
       this$1.drawChart(chart, "PieChart", data, options);
+    });
+  };
+  
+  defaultExport.prototype.renderTreemapChart = function renderTreemapChart (chart) {
+      var this$1 = this;
+
+    this.waitForLoaded(chart, function () {
+      var chartOptions = {
+        chartArea: {
+          top: "10%",
+          height: "80%"
+        },
+        legend: {}
+      };
+      if (chart.options.colors) {
+        chartOptions.colors = chart.options.colors;
+      }
+      if ("legend" in chart.options) {
+        hideLegend(chartOptions, chart.options.legend);
+      }
+      if (chart.options.title) {
+        setTitle(chartOptions, chart.options.title);
+      }
+      var options = merge(merge(defaultOptions, chartOptions), chart.options.library || {});
+
+      var data = new this$1.library.visualization.DataTable();
+      data.addColumn("string", "");
+      data.addColumn("number", "Value");
+      data.addRows(chart.data);
+
+      this$1.drawChart(chart, "TreemapChart", data, options);
     });
   };
 
@@ -1813,7 +1906,7 @@
   }
 
   function dataEmpty(data, chartType) {
-    if (chartType === "PieChart" || chartType === "GeoChart" || chartType === "Timeline") {
+    if (chartType === "PieChart" || chartType === "GeoChart" || chartType === "Timeline" || chartType === "TreemapChart") {
       return data.length === 0;
     } else {
       for (var i = 0; i < data.length; i++) {
@@ -2295,6 +2388,26 @@
 
     return PieChart;
   }(Chart));
+  
+  var TreemapChart = /*@__PURE__*/(function (Chart) {
+    function TreemapChart () {
+      Chart.apply(this, arguments);
+    }
+
+    if ( Chart ) TreemapChart.__proto__ = Chart;
+    PieChart.prototype = Object.create( Chart && Chart.prototype );
+    PieChart.prototype.constructor = TreemapChart;
+
+    PieChart.prototype.__processData = function __processData () {
+      return processSimple(this);
+    };
+
+    PieChart.prototype.__chartName = function __chartName () {
+      return "TreemapChart";
+    };
+
+    return TreemapChart;
+  }(Chart));
 
   var ColumnChart = /*@__PURE__*/(function (Chart) {
     function ColumnChart () {
@@ -2451,6 +2564,7 @@
     ScatterChart: ScatterChart,
     BubbleChart: BubbleChart,
     Timeline: Timeline,
+	TreemapChart: TreemapChart,
     charts: {},
     configure: function (options) {
       for (var key in options) {

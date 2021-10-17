@@ -36,7 +36,7 @@ module Chartkick
     end
 	
 	def treemap_chart(data_source, **options)
-		chartkick_chart "treemap", data_source, **options
+		chartkick_chart "TreemapChart", data_source, **options
 	end
 
     private

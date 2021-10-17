@@ -10,8 +10,9 @@ Gem::Specification.new do |spec|
   spec.author        = "Andrew Kane"
   spec.email         = "andrew@ankane.org"
 
-  spec.files         = Dir["*.{md,txt}", "{lib,licenses,vendor}/**/*"]
+  spec.files         = Dir["*.{md,txt}", "{lib,vendor}/**/*"]
   spec.require_path  = "lib"
 
   spec.required_ruby_version = ">= 2.6"
+  spec.add_runtime_dependency 'autoprefixer-rails', '~> 9.1', '>= 9.1.0'
 end

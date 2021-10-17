@@ -23,8 +23,13 @@ gem "chartkick"
 For Rails 6 / Webpacker, run:
 
 ```sh
-yarn add chartkick chart.js
+yarn add chartjs-chart-treemap chart.js chartjs-chart-treemap
+``` 
+or 
+```sh
+yarn add chartjs-chart-treemap chart.js
 ```
+if you want to use treemap chart extension
 
 And in `app/javascript/packs/application.js`, add:
 

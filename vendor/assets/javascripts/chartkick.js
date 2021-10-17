@@ -2395,14 +2395,14 @@
     }
 
     if ( Chart ) TreemapChart.__proto__ = Chart;
-    PieChart.prototype = Object.create( Chart && Chart.prototype );
-    PieChart.prototype.constructor = TreemapChart;
+    TreemapChart.prototype = Object.create( Chart && Chart.prototype );
+    TreemapChart.prototype.constructor = TreemapChart;
 
-    PieChart.prototype.__processData = function __processData () {
+    TreemapChart.prototype.__processData = function __processData () {
       return processSimple(this);
     };
 
-    PieChart.prototype.__chartName = function __chartName () {
+    TreemapChart.prototype.__chartName = function __chartName () {
       return "TreemapChart";
     };
 
@@ -2564,7 +2564,7 @@
     ScatterChart: ScatterChart,
     BubbleChart: BubbleChart,
     Timeline: Timeline,
-	TreemapChart: TreemapChart,
+    TreemapChart: TreemapChart,
     charts: {},
     configure: function (options) {
       for (var key in options) {
